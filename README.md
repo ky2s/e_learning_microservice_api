@@ -1,6 +1,6 @@
 # e_learning_microservice_api
 
-MICROSERVICE E-LEANRING APPLICATION
+MICROSERVICE E-LEARNING APPLICATION
 
 Tech
 - API Gateway
