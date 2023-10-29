@@ -14,3 +14,7 @@ type MetadataInput struct {
 	CourseThumbnail string
 	CourseLevel     string
 }
+
+type InputUriID struct {
+	ID int `uri:"id"`
+}

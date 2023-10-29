@@ -9,6 +9,7 @@ type Repository interface {
 	Create(order Orders) (Orders, error)
 	Update(order Orders) (Orders, error)
 	UpdateMetaData(id int, Metadata MetadataInput) (Orders, error)
+	GetAll() ([]Orders, error)
 	GetByID(ID int) (Orders, error)
 }
 
@@ -34,6 +35,20 @@ func (r *repository) GetByID(ID int) (Orders, error) {
 	var order Orders
 
 	err := r.db.Where("id = ?", ID).Find(&order).Error
+
+	if err != nil {
+		return order, err
+	}
+
+	return order, nil
+
+}
+
+func (r *repository) GetAll() ([]Orders, error) {
+
+	var order []Orders
+
+	err := r.db.Find(&order).Error
 
 	if err != nil {
 		return order, err

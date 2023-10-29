@@ -43,7 +43,7 @@ func main() {
 
 	api.POST("/orders", orderHandler.CreateNewOrder)
 	api.GET("/orders", orderHandler.Index)
-	api.GET("/orders/:orderId", orderHandler.Show)
+	api.GET("/orders/:id", orderHandler.Show)
 
 	router.Run(":3003")
 

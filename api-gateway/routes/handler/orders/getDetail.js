@@ -1,16 +1,16 @@
 const apiAdapter = require("../../apiAdapter")
 
-const { URL_SERVICE_COURSES } = process.env
+const { URL_SERVICE_TRANSACTION } = process.env
 
-const api = apiAdapter(URL_SERVICE_COURSES)
+const api = apiAdapter(URL_SERVICE_TRANSACTION)
 
 module.exports = async (req, res) => {
 
     try {
-        const id = req.params.courseId
+        const id = req.params.orderId
         console.log("------->"+id)
         
-        const user = await api.get(`/api/v1/courses/${id}`)
+        const user = await api.get(`/api/v1/orders/${id}`)
         return res.json(user.data)
     }catch (error) {
 

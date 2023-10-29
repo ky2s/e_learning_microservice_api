@@ -6,8 +6,8 @@ var orderHandler = require("./handler/orders")
 const verifyToken = require("../middlewares/verifytoken")
 
 router.post('/create', orderHandler.create)
-// router.get('/getall', orderHandler.getAll)
-// router.get('/getdetail/:orderId', orderHandler.getDetail)
+router.get('/getall', verifyToken, orderHandler.getAll)
+router.get('/detail/:orderId', verifyToken, orderHandler.getDetail)
 // router.put('/update/:orderId', orderHandler.update)
 
 module.exports = router;

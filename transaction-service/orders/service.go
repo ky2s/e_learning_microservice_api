@@ -8,8 +8,8 @@ import (
 
 type Service interface {
 	Create(input CreateOrderInput) (Orders, error)
-	// Index(input CreateOrderInput) (Orders, error)
-	// Show(input CreateOrderInput) (Orders, error)
+	Index() ([]Orders, error)
+	Show(id int) (Orders, error)
 }
 
 type service struct {
@@ -73,4 +73,22 @@ func (s *service) Create(input CreateOrderInput) (Orders, error) {
 
 }
 
-func (s *service) _()
+func (s *service) Index() ([]Orders, error) {
+	result, err := s.repository.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *service) Show(id int) (Orders, error) {
+
+	result, err := s.repository.GetByID(id)
+
+	if err != nil {
+		return Orders{}, err
+	}
+	return result, nil
+}

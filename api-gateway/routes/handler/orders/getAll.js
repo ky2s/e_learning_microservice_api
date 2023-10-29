@@ -7,7 +7,7 @@ const api = apiAdapter(URL_SERVICE_TRANSACTION)
 module.exports = async (req, res) => {
 
     try {
-        const user = await api.get("/api/v1/courses")
+        const user = await api.get("/api/v1/orders")
         return res.json(user.data)
     }catch (error) {
 
