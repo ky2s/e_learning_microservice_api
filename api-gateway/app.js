@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mediaRouter = require('./routes/media');
 var coursesRouter = require('./routes/courses');
+var ordersRouter = require('./routes/orders');
 var refreshTokenRouter = require("./routes/refreshToken")
 
 var app = express()
@@ -24,6 +25,7 @@ app.use('/refresh_token', refreshTokenRouter)
 app.use('/users', usersRouter);
 app.use('/media', mediaRouter);
 app.use('/courses', coursesRouter);
+app.use('/orders', ordersRouter);
 
 var listener = app.listen(8888, function(){
     console.log('Listening on port ' + listener.address().port); //Listening on port 8888

@@ -41,7 +41,7 @@ func main() {
 
 	api := router.Group("/api/v1")
 
-	api.POST("/order", orderHandler.CreateNewOrder)
+	api.POST("/orders", orderHandler.CreateNewOrder)
 	api.GET("/orders", orderHandler.Index)
 	api.GET("/orders/:orderId", orderHandler.Show)
 

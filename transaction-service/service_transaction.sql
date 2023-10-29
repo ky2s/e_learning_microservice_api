@@ -27,16 +27,25 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `orders`
 --
 
-CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `user_email` varchar(100) NOT NULL,
   `course_Id` int(11) NOT NULL,
+  `course_name` varchar(100) NOT NULL,
+  `course_price` int(11) NOT NULL,
   `snap_url` varchar(255) NOT NULL,
-  `metadata` varchar(255) NOT NULL,
+  `metadata` varchar(255) DEFAULT NULL,
+  `amount` int(11) NOT NULL DEFAULT '0',
+  `mentor_id` int(11) NOT NULL,
+  `mentor_name` varchar(100) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 

@@ -1,6 +1,7 @@
 package orders
 
 import (
+	"errors"
 	"transaction-service/helper"
 	"transaction-service/payments"
 )
@@ -31,8 +32,21 @@ func (s *service) Create(input CreateOrderInput) (Orders, error) {
 		return Orders{}, err
 	}
 
+	if user.Data.ID <= 0 {
+		return Orders{}, errors.New("user data is empty")
+	}
+
 	//get user
 	course, err := helper.GetCourseByID(input.CourseID)
+	if err != nil {
+		return Orders{}, err
+	}
+	if course.Data.ID <= 0 {
+		return Orders{}, errors.New("course data is empty")
+	}
+
+	//get mentor
+	mentor, err := helper.GetMentorByID(course.Data.MentorID)
 	if err != nil {
 		return Orders{}, err
 	}
@@ -44,26 +58,16 @@ func (s *service) Create(input CreateOrderInput) (Orders, error) {
 	order.CourseID = course.Data.ID
 	order.CourseName = course.Data.Name
 	order.CoursePrice = course.Data.Price
+	order.MentorID = mentor.Data.ID
+	order.MentorName = mentor.Data.Name
+	order.Amount = input.Amount
 
 	newOrder, err := s.repository.Create(order)
 	if err != nil {
 		return newOrder, err
 	}
 
-	// paymentOrder := payments.Order{
-	// 	ID:     newOrder.ID,
-	// 	Amount: input.Amount,
-	// }
-
-	// paymentUrl, err := s.paymentService.GetPaymentUrl(paymentOrder, payments.User{Email: user.Data.Email, Name: user.Data.Name})
-
-	// newOrder.SnapUrl = paymentUrl
-
-	// newOrder, err = s.repository.Update(newOrder)
-
-	// if err != nil {
-	// 	return newOrder, err
-	// }
+	// PAYMENT HERE
 
 	return newOrder, nil
 
