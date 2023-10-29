@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"transaction-service/helper"
 	"transaction-service/orders"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewOrderHandler(orderService orders.Service) *orderHandler {
 }
 
 func (h *orderHandler) CreateNewOrder(c *gin.Context) {
-	var input chapters.CreateOrderInput
+	var input orders.CreateOrderInput
 	err := c.ShouldBind(&input)
 
 	if err != nil {
@@ -30,28 +31,7 @@ func (h *orderHandler) CreateNewOrder(c *gin.Context) {
 		return
 	}
 
-	course, err := h.CoursesService.FindCourseByID(input.CourseID)
-
-	if err != nil {
-		error := helper.FormatValidationError(err)
-		errorMessage := gin.H{
-			"error": error,
-		}
-		response := helper.ApiResponse("Invalid input", http.StatusUnprocessableEntity, "error", errorMessage)
-
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	if course.ID == 0 {
-		response := helper.ApiResponse("Course doesnt exist", http.StatusBadRequest, "error", gin.H{})
-
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
-	chapter, err := h.chapterService.Create(input)
-
+	order, err := h.orderService.Create(input)
 	if err != nil {
 		error := helper.FormatValidationError(err)
 		errorMessage := gin.H{
@@ -63,7 +43,7 @@ func (h *orderHandler) CreateNewOrder(c *gin.Context) {
 		return
 	}
 
-	response := helper.ApiResponse("Success Input Chapter", http.StatusOK, "Success", chapters.FormatShowChapters(chapter))
+	response := helper.ApiResponse("Success Input Chapter", http.StatusOK, "Success", orders.FormatOrder(order))
 	c.JSON(http.StatusOK, response)
 }
 

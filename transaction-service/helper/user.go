@@ -8,9 +8,9 @@ import (
 	"strconv"
 )
 
-type Format struct {
+type FormatUser struct {
 	Status string `json:"status"`
-	Data User `json:"data"`
+	Data   User   `json:"data"`
 }
 
 type User struct {
@@ -22,13 +22,26 @@ type User struct {
 	Role       string `json:"role"`
 }
 
-func GetUserByID(id int) (Format,error) {
-	
+func GetJson(url string, target interface{}) error {
+
+	resp, err := http.Get(url)
+	fmt.Println(url)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	return json.NewDecoder(resp.Body).Decode(target)
+}
+
+func GetUserByID(id int) (FormatUser, error) {
+
 	urlUserService := os.Getenv("URL_SERVICE_USERS")
-	url:= urlUserService + "/users/" + strconv.Itoa(id) + "/detail"
-	
-	var user Format
-	
+	url := urlUserService + "/users/" + strconv.Itoa(id) + "/detail"
+
+	var user FormatUser
+
 	err := GetJson(url, &user)
 
 	if err != nil {
@@ -39,17 +52,4 @@ func GetUserByID(id int) (Format,error) {
 
 	return user, nil
 
-}
-
-func GetJson(url string, target interface{}) error {
-	
-	resp, err := http.Get(url)
-	fmt.Println(url)
-	if err != nil {
-		return err
-	}
-
-	defer resp.Body.Close()
-
-	return json.NewDecoder(resp.Body).Decode(target)
 }
